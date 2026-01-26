@@ -28,6 +28,7 @@ return {
                 "cssls",
                 "lua_ls",
                 "pyright",
+                "ts_ls",
             },
         })
     end,
