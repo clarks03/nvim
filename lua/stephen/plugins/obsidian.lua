@@ -12,6 +12,10 @@ return {
                 name = "Downloads-2024",
                 path = "~/Downloads",
             },
+            {
+                name = "School",
+                path = "~/School",
+            },
         },
 
         follow_url_func = function(url)
