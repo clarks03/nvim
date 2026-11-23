@@ -1,4 +1,11 @@
 return {
+  settings = {
+    basedpyright = {
+      analysis = {
+        typeCheckingMode = "basic"
+      }
+    }
+  },
   handlers = {
     ['$/progress'] = function(err, result, ctx)
       if result.token == (vim.g.basedpyright_progress_token or result.token) then

@@ -2,6 +2,7 @@ local keymap = vim.keymap -- for conciseness
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
   callback = function(ev)
+    vim.lsp.document_color.enable(true, { bufnr = ev.buf })
     -- Buffer local mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     local opts = { buffer = ev.buf, silent = true }
@@ -52,11 +53,33 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+vim.api.nvim_create_autocmd("LspProgress", {
+  callback = function(ev)
+    local value = ev.data and ev.data.params and ev.data.params.value
+    if not value or (value.kind ~= "begin" and value.kind ~= "end") then
+      return
+    end
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if not client or client.name ~= "dartls" then
+      return
+    end
+    vim.schedule(function()
+      for buf in pairs(client.attached_buffers) do
+        if vim.api.nvim_buf_is_valid(buf) then
+          vim.lsp.document_color.enable(false, { bufnr = buf })
+          vim.lsp.document_color.enable(true, { bufnr = buf })
+        end
+      end
+    end)
+  end
+})
+
 -- vim.lsp.inlay_hint.enable(true)
 
 local severity = vim.diagnostic.severity
 
 vim.diagnostic.config({
+  underline = true,
   signs = {
     text = {
       [severity.ERROR] = " ",

@@ -1,7 +1,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  event = { "BufReadPre", "BufNewFile" },
   branch = "main",
+  event = { "BufReadPre", "BufNewFile" },
   build = ":TSUpdate",
   config = function()
     local treesitter = require("nvim-treesitter")
@@ -26,10 +26,11 @@ return {
       "vimdoc",
       "c",
       "prisma",
+      "dart",
     })
 
     vim.api.nvim_create_autocmd("FileType", {
-      callback = function()
+      callback = function(ev)
         pcall(vim.treesitter.start)
         vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
       end,

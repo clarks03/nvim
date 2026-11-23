@@ -11,6 +11,8 @@ opt.shiftwidth = 2     -- 4 spaces for indent width
 opt.expandtab = true   -- expand tab to spaces
 opt.autoindent = true  -- copy indent from current line when starting new one
 
+opt.colorcolumn = "80"  -- testing if this works
+
 opt.wrap = false  -- line wrapping
 
 -- search settings
